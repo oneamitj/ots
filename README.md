@@ -1,4 +1,4 @@
-#OTS Usage
+# OTS Usage
 
 - Start container with bitcoin daemon
 
@@ -11,6 +11,14 @@
 - All task is done within container
 - Open multiple otscontainer bash instance each for `OTSserver`, `OTSclient` and `bitcoin-cli`
 
+- Start miner daemon
+
+        bitcoind -datadir=/root/miner -daemon
+
+- Accumulate some coins in admin node
+
+        bitcoin-cli generate 101
+
 - Start OTS local server on one bash
     
         ./otsd --btc-regtest --btc-min-confirmations 3 --btc-min-tx-interval 60
@@ -19,9 +27,9 @@
     
         ots --wait --verbose stamp -c http://localhost:14788 -m 1 FILE
 
-- Generate Blocks for timestamp in third bash
+- Generate Blocks for timestamp in third bash using miner account
     
-        bitcoin-cli generate 101
+        bitcoin-cli -datadir=/root/miner generate 3
 
 - Upgrade if --wait is not used (sync bitcoin chain)
     
