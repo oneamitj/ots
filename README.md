@@ -1,25 +1,32 @@
 #OTS Usage
 
-- Start BitCoin at ~/.bitcoin/regtest with ~/.bitcoin/bitcoin.conf
+- Start container with bitcoin daemon
 
-    bitcoind -daemon
+        docker run -d --name otscontainer ots
 
-- Start OTS local server 
+- Access otscontainer bash
+
+        docker exec -it otscontainer bash
+
+- All task is done within container
+- Open multiple otscontainer bash instance each for `OTSserver`, `OTSclient` and `bitcoin-cli`
+
+- Start OTS local server on one bash
     
-    ./otsd --btc-regtest --btc-min-confirmations 3 --btc-min-tx-interval 60
+        ./otsd --btc-regtest --btc-min-confirmations 3 --btc-min-tx-interval 60
 
-- TimeStamp FILE
+- TimeStamp FILE in another bash
     
-    ots --wait --verbose stamp -c http://localhost:14788 -m 1 FILE
+        ots --wait --verbose stamp -c http://localhost:14788 -m 1 FILE
 
-- Generate Blocks for timestamp
+- Generate Blocks for timestamp in third bash
     
-    bitcoin-cli generate 101
+        bitcoin-cli generate 101
 
 - Upgrade if --wait is not used (sync bitcoin chain)
     
-    ots --btc-regtest -l http://127.0.0.1:14788 upgrade FILE.ots 
+        ots --btc-regtest -l http://127.0.0.1:14788 upgrade FILE.ots 
 
 - Verify Timestamp
     
-    ots --btc-regtest -l http://127.0.0.1:14788 verify FILE.its
+        ots --btc-regtest -l http://127.0.0.1:14788 verify FILE.ots
